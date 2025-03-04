@@ -27,16 +27,18 @@
                    BackgroundColor="White"
                    TextColor="Black"/>
 
-        <Frame Padding="0" Margin="10" VerticalOptions="FillAndExpand" BackgroundColor="White">
+        <Frame Padding="10" Margin="10" VerticalOptions="FillAndExpand" BackgroundColor="White">
             <ListView x:Name="lst_produtos"
                   IsPullToRefreshEnabled="True"
                   Refreshing="lst_produtos_Refreshing"
                   ItemSelected="lst_produtos_ItemSelected"
                   BackgroundColor="White">
                 <ListView.Header>
-                    <Grid ColumnDefinitions="30, 100, 80, 50, 70, 90"
-                          BackgroundColor="Gray">
-                        <Label Grid.Column="0" Text="ID" Padding="5" FontAttributes="Bold" />
+                    <Grid ColumnDefinitions="50, 150, 100, 70, 70, 120"
+                          BackgroundColor="Gray"
+                          Padding="5"
+                          ColumnSpacing="10">
+                        <Label Grid.Column="0" Text="ID" FontAttributes="Bold" />
                         <Label Grid.Column="1" Text="Descrição" FontAttributes="Bold" />
                         <Label Grid.Column="2" Text="Preço" FontAttributes="Bold" />
                         <Label Grid.Column="3" Text="Qnt" FontAttributes="Bold" />
@@ -50,12 +52,16 @@
                             <ViewCell.ContextActions>
                                 <MenuItem Text="Remover" Clicked="MenuItem_Clicked" />
                             </ViewCell.ContextActions>
-                            <Grid ColumnDefinitions="30, 100, 80, 50, 70, 90">
-                                <Label Grid.Column="0" Text="{Binding Id}" Padding="5" TextColor="Black"/>
+                            <Grid ColumnDefinitions="50, 150, 100, 70, 70, 120"
+                                  Padding="5"
+                                  ColumnSpacing="10"
+                                  RowSpacing="5"
+                                  BackgroundColor="#E0E0E0">
+                                <Label Grid.Column="0" Text="{Binding Id}" TextColor="Black"/>
                                 <Label Grid.Column="1" Text="{Binding Descricao}" TextColor="Black"/>
                                 <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{}{0:c}'}" TextColor="Black"/>
                                 <Label Grid.Column="3" Text="{Binding Quantidade}" TextColor="Black"/>
-                                <Label Grid.Column="4" Text="{Binding Imposto, StringFormat='{}{0:c}'}" TextColor="Black"/>
+                                <Label Grid.Column="4" Text="{Binding Imposto, StringFormat='{}{0}%'}" TextColor="Black"/>
                                 <Label Grid.Column="5" Text="{Binding Total, StringFormat='{}{0:c}'}" TextColor="Black"/>
                             </Grid>
                         </ViewCell>
