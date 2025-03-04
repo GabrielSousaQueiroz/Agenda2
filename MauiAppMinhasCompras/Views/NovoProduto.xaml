@@ -7,7 +7,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Salvar" Clicked="ToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
-    
+
     <VerticalStackLayout Spacing="10" Padding="10">
         <Label Text="Descrição do Produto:" />
         <Entry x:Name="txt_descricao" />
@@ -17,5 +17,8 @@
 
         <Label Text="Preço Unitário:" />
         <Entry x:Name="txt_preco" Keyboard="Numeric" />
+
+        <Label Text="Imposto (%):" />
+        <Entry x:Name="txt_imposto" Keyboard="Numeric" />
     </VerticalStackLayout>
 </ContentPage>
