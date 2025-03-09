@@ -34,7 +34,7 @@
                   ItemSelected="lst_produtos_ItemSelected"
                   BackgroundColor="White">
                 <ListView.Header>
-                    <Grid ColumnDefinitions="50, 150, 100, 70, 70, 120"
+                    <Grid ColumnDefinitions="50, 150, 100, 70, 70, 120, 120" 
                           BackgroundColor="Gray"
                           Padding="5"
                           ColumnSpacing="10">
@@ -44,6 +44,8 @@
                         <Label Grid.Column="3" Text="Qnt" FontAttributes="Bold" />
                         <Label Grid.Column="4" Text="Imposto" FontAttributes="Bold" />
                         <Label Grid.Column="5" Text="Total" FontAttributes="Bold" />
+                        <Label Grid.Column="6" Text="Validade" FontAttributes="Bold" />
+                        <!-- Nova coluna -->
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
@@ -52,7 +54,7 @@
                             <ViewCell.ContextActions>
                                 <MenuItem Text="Remover" Clicked="MenuItem_Clicked" />
                             </ViewCell.ContextActions>
-                            <Grid ColumnDefinitions="50, 150, 100, 70, 70, 120"
+                            <Grid ColumnDefinitions="50, 150, 100, 70, 70, 120, 120"
                                   Padding="5"
                                   ColumnSpacing="10"
                                   RowSpacing="5"
@@ -63,6 +65,8 @@
                                 <Label Grid.Column="3" Text="{Binding Quantidade}" TextColor="Black"/>
                                 <Label Grid.Column="4" Text="{Binding Imposto, StringFormat='{}{0}%'}" TextColor="Black"/>
                                 <Label Grid.Column="5" Text="{Binding Total, StringFormat='{}{0:c}'}" TextColor="Black"/>
+                                <Label Grid.Column="6" Text="{Binding DataValidade, StringFormat='{}{0:dd/MM/yyyy}'}" TextColor="Black"/>
+                                <!-- Exibição da data -->
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
@@ -72,3 +76,4 @@
 
     </StackLayout>
 </ContentPage>
+

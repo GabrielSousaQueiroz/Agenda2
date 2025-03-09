@@ -7,6 +7,7 @@ public partial class NovoProduto : ContentPage
     public NovoProduto()
     {
         InitializeComponent();
+        dp_dataValidade.Date = DateTime.Today; // Definir a data padrão como hoje
     }
 
     private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -18,7 +19,8 @@ public partial class NovoProduto : ContentPage
                 Descricao = txt_descricao.Text,
                 Quantidade = Convert.ToDouble(txt_quantidade.Text),
                 Preco = Convert.ToDouble(txt_preco.Text),
-                Imposto = string.IsNullOrWhiteSpace(txt_imposto.Text) ? 0 : Convert.ToDouble(txt_imposto.Text)
+                Imposto = string.IsNullOrWhiteSpace(txt_imposto.Text) ? 0 : Convert.ToDouble(txt_imposto.Text),
+                DataValidade = dp_dataValidade.Date // Captura a data selecionada
             };
 
             await App.Db.Insert(p);
@@ -32,3 +34,4 @@ public partial class NovoProduto : ContentPage
         }
     }
 }
+

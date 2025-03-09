@@ -7,37 +7,41 @@ namespace MauiAppMinhasCompras.Helpers
     {
         readonly SQLiteAsyncConnection _conn;
 
-        public SQLiteDatabaseHelper(string path) 
-        { 
+        public SQLiteDatabaseHelper(string path)
+        {
             _conn = new SQLiteAsyncConnection(path);
             _conn.CreateTableAsync<Produto>().Wait();
         }
 
-        public Task<int> Insert(Produto p) 
+        // Método de inserção de produto
+        public Task<int> Insert(Produto p)
         {
             return _conn.InsertAsync(p);
         }
 
-        public Task<List<Produto>> Update(Produto p) 
+        // Método de atualização de produto
+        public Task<int> Update(Produto p)
         {
-            string sql = "UPDATE Produto SET Descricao=?, Quantidade=?, Preco=? WHERE Id=?";
+            // Atualizando todos os campos, incluindo Descricao, Quantidade, Preco, Imposto e DataValidade
+            string sql = "UPDATE Produto SET Descricao=?, Quantidade=?, Preco=?, Imposto=?, DataValidade=? WHERE Id=?";
 
-            return _conn.QueryAsync<Produto>(
-                sql, p.Descricao, p.Quantidade, p.Preco, p.Id
-            );
+            return _conn.ExecuteAsync(sql, p.Descricao, p.Quantidade, p.Preco, p.Imposto, p.DataValidade, p.Id);
         }
 
-        public Task<int> Delete(int id) 
+        // Método de exclusão de produto
+        public Task<int> Delete(int id)
         {
             return _conn.Table<Produto>().DeleteAsync(i => i.Id == id);
         }
 
-        public Task<List<Produto>> GetAll() 
+        // Método para obter todos os produtos
+        public Task<List<Produto>> GetAll()
         {
             return _conn.Table<Produto>().ToListAsync();
         }
 
-        public Task<List<Produto>> Search(string q) 
+        // Método de busca de produtos
+        public Task<List<Produto>> Search(string q)
         {
             string sql = "SELECT * FROM Produto WHERE descricao LIKE '%" + q + "%'";
 
@@ -45,3 +49,4 @@ namespace MauiAppMinhasCompras.Helpers
         }
     }
 }
+
