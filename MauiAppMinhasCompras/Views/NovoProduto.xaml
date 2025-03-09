@@ -21,7 +21,7 @@
         <Label Text="Imposto (%):" />
         <Entry x:Name="txt_imposto" Keyboard="Numeric" />
 
-        <!-- Novo campo para Data de Validade -->
+        <!-- Data de Validade -->
         <Label Text="Data de Validade:" />
         <DatePicker x:Name="dp_dataValidade" Format="dd/MM/yyyy" />
 

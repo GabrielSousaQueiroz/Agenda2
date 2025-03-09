@@ -45,7 +45,7 @@
                         <Label Grid.Column="4" Text="Imposto" FontAttributes="Bold" />
                         <Label Grid.Column="5" Text="Total" FontAttributes="Bold" />
                         <Label Grid.Column="6" Text="Validade" FontAttributes="Bold" />
-                        <!-- Nova coluna -->
+                        <!-- coluna Data -->
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
