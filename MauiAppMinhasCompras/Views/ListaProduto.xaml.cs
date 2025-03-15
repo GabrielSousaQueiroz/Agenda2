@@ -64,13 +64,13 @@ namespace MauiAppMinhasCompras.Views
 
         private async void txt_search_TextChanged(object sender, TextChangedEventArgs e)
         {
-            // Cancel previous debounce
+            // Cancelar debounce anterior
             _debounceTimer?.Cancel();
             _debounceTimer = new CancellationTokenSource();
 
             try
             {
-                // Debounce delay
+                // Atraso de debounce
                 await Task.Delay(500, _debounceTimer.Token);
                 string query = e.NewTextValue;
                 await RealizarBusca(query);
