@@ -18,6 +18,14 @@ public partial class EditarProduto : ContentPage
 
             if (produto_anexado != null)
             {
+                // Perguntar ao usuário se ele deseja realmente editar o item
+                bool confirmarEdicao = await DisplayAlert("Confirmação", "Tem certeza que deseja editar este item?", "Sim", "Não");
+
+                if (!confirmarEdicao)
+                {
+                    return; // Se o usuário escolher "Não", a edição é cancelada
+                }
+
                 // Criando o novo produto com os valores atualizados
                 Produto p = new Produto
                 {

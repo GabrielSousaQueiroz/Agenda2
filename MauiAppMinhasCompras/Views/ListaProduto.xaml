@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppMinhasCompras.Views.ListaProduto"
              Title="Minhas Compras"
-             BackgroundColor="Black">
+             BackgroundColor="#F5F5F5">
+    <!-- Fundo cinza claro para suavidade -->
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1" />
@@ -15,37 +16,40 @@
             <Style TargetType="Label">
                 <Setter Property="VerticalTextAlignment" Value="Center" />
                 <Setter Property="TextColor" Value="Black" />
+                <Setter Property="FontSize" Value="14"/>
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout>
+    <StackLayout Padding="10">
         <SearchBar x:Name="txt_search"
-                   Margin="-15, 0, 0, 0"
-                   Placeholder="Busca de Produtos"
+                   Placeholder="Buscar produtos..."
                    TextChanged="txt_search_TextChanged"
                    BackgroundColor="White"
-                   TextColor="Black"/>
+                   TextColor="Black"
+                   Margin="0,0,0,10"
+                   HeightRequest="50"/>
 
-        <Frame Padding="10" Margin="10" VerticalOptions="FillAndExpand" BackgroundColor="White">
+        <Frame Padding="10" BackgroundColor="White" CornerRadius="10" HasShadow="True">
             <ListView x:Name="lst_produtos"
-                  IsPullToRefreshEnabled="True"
-                  Refreshing="lst_produtos_Refreshing"
-                  ItemSelected="lst_produtos_ItemSelected"
-                  BackgroundColor="White">
+                      IsPullToRefreshEnabled="True"
+                      Refreshing="lst_produtos_Refreshing"
+                      ItemSelected="lst_produtos_ItemSelected"
+                      BackgroundColor="White"
+                      SeparatorColor="#B0BEC5">
+                <!-- Separador mais suave -->
                 <ListView.Header>
-                    <Grid ColumnDefinitions="50, 150, 100, 70, 70, 120, 120" 
-                          BackgroundColor="Gray"
-                          Padding="5"
+                    <Grid ColumnDefinitions="50, 1.5*, 0.8*, 0.5*, 0.5*, 1*, 1*"
+                          BackgroundColor="#455A64"
+                          Padding="8"
                           ColumnSpacing="10">
-                        <Label Grid.Column="0" Text="ID" FontAttributes="Bold" />
-                        <Label Grid.Column="1" Text="Descrição" FontAttributes="Bold" />
-                        <Label Grid.Column="2" Text="Preço" FontAttributes="Bold" />
-                        <Label Grid.Column="3" Text="Qnt" FontAttributes="Bold" />
-                        <Label Grid.Column="4" Text="Imposto" FontAttributes="Bold" />
-                        <Label Grid.Column="5" Text="Total" FontAttributes="Bold" />
-                        <Label Grid.Column="6" Text="Validade" FontAttributes="Bold" />
-                        <!-- coluna Data -->
+                        <Label Grid.Column="0" Text="ID" FontAttributes="Bold" TextColor="White"/>
+                        <Label Grid.Column="1" Text="Descrição" FontAttributes="Bold" TextColor="White"/>
+                        <Label Grid.Column="2" Text="Preço" FontAttributes="Bold" TextColor="White"/>
+                        <Label Grid.Column="3" Text="Qnt" FontAttributes="Bold" TextColor="White"/>
+                        <Label Grid.Column="4" Text="Imposto" FontAttributes="Bold" TextColor="White"/>
+                        <Label Grid.Column="5" Text="Total" FontAttributes="Bold" TextColor="White"/>
+                        <Label Grid.Column="6" Text="Validade" FontAttributes="Bold" TextColor="White"/>
                     </Grid>
                 </ListView.Header>
                 <ListView.ItemTemplate>
@@ -54,26 +58,23 @@
                             <ViewCell.ContextActions>
                                 <MenuItem Text="Remover" Clicked="MenuItem_Clicked" />
                             </ViewCell.ContextActions>
-                            <Grid ColumnDefinitions="50, 150, 100, 70, 70, 120, 120"
-                                  Padding="5"
-                                  ColumnSpacing="10"
-                                  RowSpacing="5"
-                                  BackgroundColor="#E0E0E0">
-                                <Label Grid.Column="0" Text="{Binding Id}" TextColor="Black"/>
-                                <Label Grid.Column="1" Text="{Binding Descricao}" TextColor="Black"/>
-                                <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{}{0:c}'}" TextColor="Black"/>
-                                <Label Grid.Column="3" Text="{Binding Quantidade}" TextColor="Black"/>
-                                <Label Grid.Column="4" Text="{Binding Imposto, StringFormat='{}{0}%'}" TextColor="Black"/>
-                                <Label Grid.Column="5" Text="{Binding Total, StringFormat='{}{0:c}'}" TextColor="Black"/>
-                                <Label Grid.Column="6" Text="{Binding DataValidade, StringFormat='{}{0:dd/MM/yyyy}'}" TextColor="Black"/>
-                                <!-- Exibição da data -->
-                            </Grid>
+                            <Frame Padding="5" Margin="5,2,5,2" CornerRadius="8" BackgroundColor="#ECEFF1">
+                                <Grid ColumnDefinitions="50, 1.5*, 0.8*, 0.5*, 0.5*, 1*, 1*"
+                                      Padding="5"
+                                      ColumnSpacing="10">
+                                    <Label Grid.Column="0" Text="{Binding Id}" TextColor="Black"/>
+                                    <Label Grid.Column="1" Text="{Binding Descricao}" TextColor="Black" FontAttributes="Bold"/>
+                                    <Label Grid.Column="2" Text="{Binding Preco, StringFormat='{}{0:c}'}" TextColor="Black"/>
+                                    <Label Grid.Column="3" Text="{Binding Quantidade}" TextColor="Black"/>
+                                    <Label Grid.Column="4" Text="{Binding Imposto, StringFormat='{}{0}%'}" TextColor="Black"/>
+                                    <Label Grid.Column="5" Text="{Binding Total, StringFormat='{}{0:c}'}" TextColor="Black"/>
+                                    <Label Grid.Column="6" Text="{Binding DataValidade, StringFormat='{}{0:dd/MM/yyyy}'}" TextColor="Black"/>
+                                </Grid>
+                            </Frame>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Frame>
-
     </StackLayout>
 </ContentPage>
-

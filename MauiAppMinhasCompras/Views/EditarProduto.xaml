@@ -2,28 +2,47 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppMinhasCompras.Views.EditarProduto"
-             Title="{Binding Descricao}">
+             Title="{Binding Descricao}"
+             BackgroundColor="#F5F5F5">
+    <!-- Fundo cinza claro para suavidade -->
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Salvar" Clicked="ToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
 
-    <VerticalStackLayout Spacing="10" Padding="10">
-        <Label Text="Descrição do Produto:" />
-        <Entry x:Name="txt_descricao" Text="{Binding Descricao}" />
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
 
-        <Label Text="Quantidade:" />
-        <Entry x:Name="txt_quantidade" Text="{Binding Quantidade}" Keyboard="Numeric" />
+            <Frame Padding="15" CornerRadius="10" BackgroundColor="White" HasShadow="True">
+                <VerticalStackLayout Spacing="12">
 
-        <Label Text="Preço Unitário:" />
-        <Entry x:Name="txt_preco" Text="{Binding Preco}" Keyboard="Numeric" />
+                    <Label Text="Descrição do Produto:" FontSize="16" TextColor="Black" FontAttributes="Bold"/>
+                    <Entry x:Name="txt_descricao" Text="{Binding Descricao}" Placeholder="Digite a descrição..." BackgroundColor="#ECEFF1" TextColor="Black" />
 
-        <!--Imposto -->
-        <Label Text="Imposto (%):" />
-        <Entry x:Name="txt_imposto" Text="{Binding Imposto}" Keyboard="Numeric" />
+                    <Label Text="Quantidade:" FontSize="16" TextColor="Black" FontAttributes="Bold"/>
+                    <Entry x:Name="txt_quantidade" Text="{Binding Quantidade}" Placeholder="Ex: 2" Keyboard="Numeric" BackgroundColor="#ECEFF1" TextColor="Black"/>
 
-        <!-- Data de Validade -->
-        <Label Text="Data de Validade:" />
-        <DatePicker x:Name="dp_validade" Date="{Binding DataValidade}" />
-    </VerticalStackLayout>
+                    <Label Text="Preço Unitário:" FontSize="16" TextColor="Black" FontAttributes="Bold"/>
+                    <Entry x:Name="txt_preco" Text="{Binding Preco}" Placeholder="Ex: 10.50" Keyboard="Numeric" BackgroundColor="#ECEFF1" TextColor="Black"/>
+
+                    <Label Text="Imposto (%):" FontSize="16" TextColor="Black" FontAttributes="Bold"/>
+                    <Entry x:Name="txt_imposto" Text="{Binding Imposto}" Placeholder="Ex: 5" Keyboard="Numeric" BackgroundColor="#ECEFF1" TextColor="Black"/>
+
+                    <Label Text="Data de Validade:" FontSize="16" TextColor="Black" FontAttributes="Bold"/>
+                    <DatePicker x:Name="dp_validade" Date="{Binding DataValidade}" Format="dd/MM/yyyy" TextColor="Black" />
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <Button Text="Salvar Produto" 
+                    Clicked="ToolbarItem_Clicked"
+                    BackgroundColor="#388E3C" 
+                    TextColor="White"
+                    FontSize="18"
+                    CornerRadius="10"
+                    HeightRequest="50"/>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

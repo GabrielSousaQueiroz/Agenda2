@@ -14,6 +14,14 @@ public partial class NovoProduto : ContentPage
     {
         try
         {
+            // Perguntar ao usuário se ele deseja realmente adicionar o item
+            bool confirmarInsercao = await DisplayAlert("Confirmação", "Tem certeza que deseja adicionar este produto?", "Sim", "Não");
+
+            if (!confirmarInsercao)
+            {
+                return; // Se o usuário escolher "Não", a inserção é cancelada
+            }
+
             Produto p = new Produto
             {
                 Descricao = txt_descricao.Text,
@@ -26,7 +34,6 @@ public partial class NovoProduto : ContentPage
             await App.Db.Insert(p);
             await DisplayAlert("Sucesso!", "Registro Inserido", "OK");
             await Navigation.PopAsync();
-
         }
         catch (Exception ex)
         {
