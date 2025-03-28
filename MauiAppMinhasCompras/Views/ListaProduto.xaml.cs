@@ -6,27 +6,41 @@ namespace MauiAppMinhasCompras.Views;
 public partial class ListaProduto : ContentPage
 {
     ObservableCollection<Produto> lista = new ObservableCollection<Produto>();
+    private string _categoriaSelecionada = "Todas";
 
     public ListaProduto()
     {
         InitializeComponent();
-
         lst_produtos.ItemsSource = lista;
+        picker_categorias.SelectedIndex = 0; // Seleciona "Todas" por padrão
     }
 
     protected async override void OnAppearing()
     {
+        await CarregarProdutos();
+    }
+
+    private async Task CarregarProdutos(string categoria = null)
+    {
         try
         {
             lista.Clear();
+            List<Produto> tmp;
 
-            List<Produto> tmp = await App.Db.GetAll();
+            if (string.IsNullOrEmpty(categoria) || categoria == "Todas")
+            {
+                tmp = await App.Db.GetAll();
+            }
+            else
+            {
+                tmp = await App.Db.GetByCategory(categoria);
+            }
 
             tmp.ForEach(i => lista.Add(i));
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Ops", ex.Message, "OK");
+            await DisplayAlert("Erro", ex.Message, "OK");
         }
     }
 
@@ -35,11 +49,10 @@ public partial class ListaProduto : ContentPage
         try
         {
             Navigation.PushAsync(new Views.NovoProduto());
-
         }
         catch (Exception ex)
         {
-            DisplayAlert("Ops", ex.Message, "OK");
+            DisplayAlert("Erro", ex.Message, "OK");
         }
     }
 
@@ -48,18 +61,26 @@ public partial class ListaProduto : ContentPage
         try
         {
             string q = e.NewTextValue;
-
             lst_produtos.IsRefreshing = true;
-
             lista.Clear();
 
-            List<Produto> tmp = await App.Db.Search(q);
+            List<Produto> tmp;
+
+            if (_categoriaSelecionada == "Todas" || string.IsNullOrEmpty(_categoriaSelecionada))
+            {
+                tmp = await App.Db.Search(q);
+            }
+            else
+            {
+                tmp = await App.Db.Search(q);
+                tmp = tmp.Where(p => p.Categoria == _categoriaSelecionada).ToList();
+            }
 
             tmp.ForEach(i => lista.Add(i));
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Ops", ex.Message, "OK");
+            await DisplayAlert("Erro", ex.Message, "OK");
         }
         finally
         {
@@ -67,27 +88,63 @@ public partial class ListaProduto : ContentPage
         }
     }
 
+    private async void Picker_Categorias_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        var picker = (Picker)sender;
+        int selectedIndex = picker.SelectedIndex;
+
+        if (selectedIndex != -1)
+        {
+            _categoriaSelecionada = picker.Items[selectedIndex];
+            await CarregarProdutos(_categoriaSelecionada == "Todas" ? null : _categoriaSelecionada);
+        }
+    }
+
     private void ToolbarItem_Clicked_1(object sender, EventArgs e)
     {
         double soma = lista.Sum(i => i.Total);
-
-        string msg = $"O total é {soma:C}";
-
+        string msg = $"Total: {soma:C}";
         DisplayAlert("Total dos Produtos", msg, "OK");
+    }
+
+    private async void ToolbarItem_Clicked_2(object sender, EventArgs e)
+    {
+        try
+        {
+            var categorias = new List<string> { "Alimentos", "Bebidas", "Higiene", "Limpeza", "Utilitários", "Cozinha", "Padaria", "Outros" };
+            var resumo = new Dictionary<string, double>();
+
+            foreach (var categoria in categorias)
+            {
+                var produtos = await App.Db.GetByCategory(categoria);
+                resumo[categoria] = produtos.Sum(p => p.Total);
+            }
+
+            var mensagem = "Gastos por Categoria:\n\n";
+            foreach (var item in resumo.OrderByDescending(x => x.Value))
+            {
+                mensagem += $"{item.Key}: {item.Value:C}\n";
+            }
+
+            await DisplayAlert("Resumo por Categoria", mensagem, "OK");
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Erro", ex.Message, "OK");
+        }
     }
 
     private async void MenuItem_Clicked(object sender, EventArgs e)
     {
         try
         {
-            MenuItem selecinado = sender as MenuItem;
-
-            Produto p = selecinado.BindingContext as Produto;
+            MenuItem selecionado = sender as MenuItem;
+            Produto p = selecionado.BindingContext as Produto;
 
             bool confirm = await DisplayAlert(
-                "Tem Certeza?", $"Remover {p.Descricao}?", "Sim", "Não");
+                "Confirmação", $"Remover {p.Descricao}?", "Sim", "Não");
 
-            if(confirm)
+            if (confirm)
             {
                 await App.Db.Delete(p.Id);
                 lista.Remove(p);
@@ -95,7 +152,7 @@ public partial class ListaProduto : ContentPage
         }
         catch (Exception ex)
         {
-            await DisplayAlert("Ops", ex.Message, "OK");
+            await DisplayAlert("Erro", ex.Message, "OK");
         }
     }
 
@@ -103,36 +160,24 @@ public partial class ListaProduto : ContentPage
     {
         try
         {
-            Produto p = e.SelectedItem as Produto;
-
-            Navigation.PushAsync(new Views.EditarProduto
+            if (e.SelectedItem != null)
             {
-                BindingContext = p,
-            });
+                Produto p = e.SelectedItem as Produto;
+                Navigation.PushAsync(new Views.EditarProduto
+                {
+                    BindingContext = p,
+                });
+                lst_produtos.SelectedItem = null;
+            }
         }
         catch (Exception ex)
         {
-            DisplayAlert("Ops", ex.Message, "OK");
+            DisplayAlert("Erro", ex.Message, "OK");
         }
     }
 
     private async void lst_produtos_Refreshing(object sender, EventArgs e)
     {
-        try
-        {
-            lista.Clear();
-
-            List<Produto> tmp = await App.Db.GetAll();
-
-            tmp.ForEach(i => lista.Add(i));
-        }
-        catch (Exception ex)
-        {
-            await DisplayAlert("Ops", ex.Message, "OK");
-
-        } finally
-        {
-            lst_produtos.IsRefreshing = false;
-        }
+        await CarregarProdutos(_categoriaSelecionada == "Todas" ? null : _categoriaSelecionada);
     }
 }

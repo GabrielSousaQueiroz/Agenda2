@@ -12,10 +12,30 @@
         <Label Text="Descrição do Produto:" />
         <Entry x:Name="txt_descricao" Text="{Binding Descricao}" />
 
+        <Label Text="Categoria:" />
+        <Picker x:Name="picker_categoria" 
+                Title="Selecione uma categoria"
+                SelectedItem="{Binding Categoria}">
+            <Picker.Items>
+                <x:String>Alimentos</x:String>
+                <x:String>Bebidas</x:String>
+                <x:String>Higiene</x:String>
+                <x:String>Limpeza</x:String>
+                <x:String>Utilitários</x:String>
+                <x:String>Cozinha</x:String>
+                <x:String>Padaria</x:String>
+                <x:String>Outros</x:String>
+            </Picker.Items>
+        </Picker>
+
         <Label Text="Quantidade:" />
-        <Entry x:Name="txt_quantidade" Text="{Binding Quantidade}" Keyboard="Numeric" />
+        <Entry x:Name="txt_quantidade" 
+               Text="{Binding Quantidade}" 
+               Keyboard="Numeric" />
 
         <Label Text="Preço Unitário:" />
-        <Entry x:Name="txt_preco" Text="{Binding Preco}" Keyboard="Numeric" />
+        <Entry x:Name="txt_preco" 
+               Text="{Binding Preco}" 
+               Keyboard="Numeric" />
     </VerticalStackLayout>
 </ContentPage>

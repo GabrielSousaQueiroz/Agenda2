@@ -7,10 +7,24 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Salvar" Clicked="ToolbarItem_Clicked" />
     </ContentPage.ToolbarItems>
-    
+
     <VerticalStackLayout Spacing="10" Padding="10">
         <Label Text="Descrição do Produto:" />
         <Entry x:Name="txt_descricao" />
+
+        <Label Text="Categoria:" />
+        <Picker x:Name="picker_categoria" Title="Selecione uma categoria">
+            <Picker.Items>
+                <x:String>Alimentos</x:String>
+                <x:String>Bebidas</x:String>
+                <x:String>Higiene</x:String>
+                <x:String>Limpeza</x:String>
+                <x:String>Utilitários</x:String>
+                <x:String>Cozinha</x:String>
+                <x:String>Padaria</x:String>
+                <x:String>Outros</x:String>
+            </Picker.Items>
+        </Picker>
 
         <Label Text="Quantidade:" />
         <Entry x:Name="txt_quantidade" Keyboard="Numeric" />
