@@ -10,6 +10,24 @@ public partial class NovoProduto : ContentPage
 
         // Define a categoria padrão como "Outros" ao iniciar
         picker_categoria.SelectedIndex = picker_categoria.Items.IndexOf("Outros");
+        AtualizarLabelCategoria(); // Atualiza a label com a categoria padrão
+    }
+
+    private void Picker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        AtualizarLabelCategoria();
+    }
+
+    private void AtualizarLabelCategoria()
+    {
+        if (picker_categoria.SelectedIndex != -1)
+        {
+            lbl_categoria_selecionada.Text = $"Categoria selecionada: {picker_categoria.SelectedItem}";
+        }
+        else
+        {
+            lbl_categoria_selecionada.Text = "Nenhuma categoria selecionada";
+        }
     }
 
     private async void ToolbarItem_Clicked(object sender, EventArgs e)

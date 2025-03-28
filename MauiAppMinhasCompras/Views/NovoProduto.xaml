@@ -2,34 +2,111 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppMinhasCompras.Views.NovoProduto"
-             Title="Novo Produto">
+             Title="Novo Produto"
+             BackgroundColor="#FFF5F5F5">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Salvar" Clicked="ToolbarItem_Clicked" />
-    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="#333333" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="Margin" Value="0,5,0,0" />
+            </Style>
+            <Style TargetType="Entry">
+                <Setter Property="BackgroundColor" Value="#FFEEEEEE" />
+                <Setter Property="TextColor" Value="#333333" />
+                <Setter Property="Margin" Value="0,0,0,10" />
+               
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="PlaceholderColor" Value="#666666" />
+            </Style>
+            <Style TargetType="Picker">
+                <Setter Property="BackgroundColor" Value="#FFEEEEEE" />
+                <Setter Property="TextColor" Value="#333333" />
+                <Setter Property="Margin" Value="0,0,0,10" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="TitleColor" Value="#666666" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#FFE0E0E0" />
+                <Setter Property="TextColor" Value="#333333" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Margin" Value="10" />
+                <Setter Property="Padding" Value="12" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="FontAttributes" Value="Bold" />
+            </Style>
+            <Style TargetType="Frame">
+                <Setter Property="BorderColor" Value="#FFD0D0D0" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Padding" Value="15" />
+                <Setter Property="Margin" Value="0,0,0,10" />
+                <Setter Property="BackgroundColor" Value="White" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
-    <VerticalStackLayout Spacing="10" Padding="10">
-        <Label Text="Descrição do Produto:" />
-        <Entry x:Name="txt_descricao" />
+    <Grid RowDefinitions="*,Auto" Padding="10">
+        <ScrollView>
+            <VerticalStackLayout Spacing="5">
+                <Frame>
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Descrição do Produto:" FontAttributes="Bold" />
+                        <Entry x:Name="txt_descricao" 
+                               Placeholder="Digite a descrição"
+                               BackgroundColor="#FFEEEEEE" />
+                    </VerticalStackLayout>
+                </Frame>
 
-        <Label Text="Categoria:" />
-        <Picker x:Name="picker_categoria" Title="Selecione uma categoria">
-            <Picker.Items>
-                <x:String>Alimentos</x:String>
-                <x:String>Bebidas</x:String>
-                <x:String>Higiene</x:String>
-                <x:String>Limpeza</x:String>
-                <x:String>Utilitários</x:String>
-                <x:String>Cozinha</x:String>
-                <x:String>Padaria</x:String>
-                <x:String>Outros</x:String>
-            </Picker.Items>
-        </Picker>
+                <Frame>
+                    <VerticalStackLayout Spacing="5">
+                        <Label Text="Categoria:" FontAttributes="Bold" />
+                        <Picker x:Name="picker_categoria" 
+                                Title="Selecione uma categoria"
+                                SelectedIndexChanged="Picker_SelectedIndexChanged"
+                                BackgroundColor="#FFEEEEEE">
+                            <Picker.Items>
+                                <x:String>Alimentos</x:String>
+                                <x:String>Bebidas</x:String>
+                                <x:String>Higiene</x:String>
+                                <x:String>Limpeza</x:String>
+                                <x:String>Utilitários</x:String>
+                                <x:String>Cozinha</x:String>
+                                <x:String>Padaria</x:String>
+                                <x:String>Outros</x:String>
+                            </Picker.Items>
+                        </Picker>
+                        <Label x:Name="lbl_categoria_selecionada" 
+                               Text="Nenhuma categoria selecionada" 
+                               TextColor="#666666"
+                               FontSize="12"
+                               IsVisible="True" />
+                    </VerticalStackLayout>
+                </Frame>
 
-        <Label Text="Quantidade:" />
-        <Entry x:Name="txt_quantidade" Keyboard="Numeric" />
+                <Frame>
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                        <Label Grid.Column="0" Grid.Row="0" Text="Quantidade:" FontAttributes="Bold" />
+                        <Entry x:Name="txt_quantidade" 
+                               Grid.Column="0" Grid.Row="1"
+                               Keyboard="Numeric" 
+                               Placeholder="0"
+                               BackgroundColor="#FFEEEEEE" />
 
-        <Label Text="Preço Unitário:" />
-        <Entry x:Name="txt_preco" Keyboard="Numeric" />
-    </VerticalStackLayout>
+                        <Label Grid.Column="1" Grid.Row="0" Text="Preço Unitário:" FontAttributes="Bold" />
+                        <Entry x:Name="txt_preco" 
+                               Grid.Column="1" Grid.Row="1"
+                               Keyboard="Numeric" 
+                               Placeholder="0,00"
+                               BackgroundColor="#FFEEEEEE" />
+                    </Grid>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Botão Salvar na parte inferior -->
+        <Button Grid.Row="1" 
+                Text="Salvar" 
+                Clicked="ToolbarItem_Clicked" />
+    </Grid>
 </ContentPage>

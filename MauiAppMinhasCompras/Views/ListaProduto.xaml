@@ -2,34 +2,56 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MauiAppMinhasCompras.Views.ListaProduto"
-             Title="Minhas Compras">
-
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Somar" Clicked="ToolbarItem_Clicked_1" />
-        <ToolbarItem Text="Adicionar" Clicked="ToolbarItem_Clicked" />
-        <ToolbarItem Text="Categorias" Clicked="ToolbarItem_Clicked_2" />
-    </ContentPage.ToolbarItems>
+             Title="Minhas Compras"
+             BackgroundColor="#FFF5F5F5">
 
     <ContentPage.Resources>
         <ResourceDictionary>
             <Style TargetType="Label">
                 <Setter Property="VerticalTextAlignment" Value="Center" />
+                <Setter Property="TextColor" Value="#333333" />
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#FFE0E0E0" />
+                <Setter Property="TextColor" Value="#333333" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="Margin" Value="5" />
+                <Setter Property="Padding" Value="12,8" />
+                <Setter Property="FontSize" Value="14" />
+            </Style>
+            <Style x:Key="TotalLabelStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="#2E7D32" />
+                <Setter Property="BackgroundColor" Value="#E8F5E9" />
+                <Setter Property="Padding" Value="5" />
+                <Setter Property="HorizontalTextAlignment" Value="End" />
+            </Style>
+            <Style x:Key="FiltroAtivoStyle" TargetType="Label">
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="TextColor" Value="#1565C0" />
+                <Setter Property="BackgroundColor" Value="#E3F2FD" />
+                <Setter Property="Padding" Value="8,4" />
+                <Setter Property="Margin" Value="0,0,0,5" />
+                <Setter Property="HorizontalOptions" Value="Center" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout>
-        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="10">
+        <!-- Barra de busca e filtro -->
+        <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" Margin="10,10,10,0">
             <SearchBar x:Name="txt_search"
                    Grid.Column="0"
                    Margin="0,0,5,0"
                    Placeholder="Busca por nome"
+                   BackgroundColor="White"
                    TextChanged="txt_search_TextChanged"/>
 
             <Picker x:Name="picker_categorias"
                 Grid.Column="1"
                 Margin="5,0,0,0"
                 Title="Filtrar categoria"
+                BackgroundColor="White"
                 SelectedIndexChanged="Picker_Categorias_SelectedIndexChanged">
                 <Picker.Items>
                     <x:String>Todas</x:String>
@@ -45,15 +67,30 @@
             </Picker>
         </Grid>
 
-        <Frame Padding="0" Margin="10" VerticalOptions="FillAndExpand">
+        <!-- Label mostrando o filtro ativo -->
+        <Label x:Name="lbl_filtro_ativo"
+               Grid.Row="1"
+               Text="Mostrando: Todas as categorias"
+               Style="{StaticResource FiltroAtivoStyle}"
+               IsVisible="False" />
+
+        <!-- Lista de produtos -->
+        <Frame Grid.Row="2" 
+               Padding="0" 
+               Margin="10,0,10,0" 
+               CornerRadius="8"
+               BorderColor="#FFD0D0D0"
+               BackgroundColor="White">
             <ListView x:Name="lst_produtos"
                   IsPullToRefreshEnabled="True"
                   Refreshing="lst_produtos_Refreshing"
-                  ItemSelected="lst_produtos_ItemSelected">
+                  ItemSelected="lst_produtos_ItemSelected"
+                  SeparatorColor="#FFEEEEEE">
                 <ListView.Header>
-                    <Grid ColumnDefinitions="30, 100, 60, 50, 50, 70"
-                          BackgroundColor="{StaticResource Gray100}">
-                        <Label Grid.Column="0" Text="ID" Padding="5" FontAttributes="Bold" />
+                    <Grid ColumnDefinitions="30,110,70,60,70,80"
+                          BackgroundColor="#FFEEEEEE"
+                          Padding="10,8">
+                        <Label Grid.Column="0" Text="ID" FontAttributes="Bold" />
                         <Label Grid.Column="1" Text="Descrição" FontAttributes="Bold" />
                         <Label Grid.Column="2" Text="Categoria" FontAttributes="Bold" />
                         <Label Grid.Column="3" Text="Qnt" FontAttributes="Bold" />
@@ -67,18 +104,32 @@
                             <ViewCell.ContextActions>
                                 <MenuItem Text="Remover" Clicked="MenuItem_Clicked" />
                             </ViewCell.ContextActions>
-                            <Grid ColumnDefinitions="30, 100, 60, 50, 50, 70">
-                                <Label Grid.Column="0" Text="{Binding Id}" Padding="5" />
+                            <Grid ColumnDefinitions="30,110,70,60,70,80"
+                                  Padding="10,8">
+                                <Label Grid.Column="0" Text="{Binding Id}" />
                                 <Label Grid.Column="1" Text="{Binding Descricao}" LineBreakMode="TailTruncation" />
                                 <Label Grid.Column="2" Text="{Binding Categoria}" LineBreakMode="TailTruncation" />
                                 <Label Grid.Column="3" Text="{Binding Quantidade}" />
                                 <Label Grid.Column="4" Text="{Binding Preco, StringFormat='{}{0:c}'}" />
-                                <Label Grid.Column="5" Text="{Binding TotalComImposto, StringFormat='{}{0:c}'}" FontAttributes="Bold" />
+                                <Label Grid.Column="5" 
+                                       Text="{Binding Total, StringFormat='{}{0:c}'}" 
+                                       Style="{StaticResource TotalLabelStyle}" />
                             </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
         </Frame>
-    </StackLayout>
+
+        <!-- Barra de botões inferior -->
+        <Grid Grid.Row="3" 
+              ColumnDefinitions="*,*,*" 
+              BackgroundColor="#FFEEEEEE"
+              Padding="10"
+              RowDefinitions="Auto">
+            <Button Grid.Column="0" Text="Somar" Clicked="ToolbarItem_Clicked_1" />
+            <Button Grid.Column="1" Text="Adicionar" Clicked="ToolbarItem_Clicked" />
+            <Button Grid.Column="2" Text="Relátorio" Clicked="ToolbarItem_Clicked_2" />
+        </Grid>
+    </Grid>
 </ContentPage>
