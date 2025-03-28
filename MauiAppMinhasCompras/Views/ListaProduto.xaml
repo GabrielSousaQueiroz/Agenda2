@@ -26,32 +26,33 @@
                 <Setter Property="Padding" Value="5" />
                 <Setter Property="HorizontalTextAlignment" Value="End" />
             </Style>
-            <Style x:Key="FiltroAtivoStyle" TargetType="Label">
-                <Setter Property="FontAttributes" Value="Bold" />
-                <Setter Property="TextColor" Value="#1565C0" />
-                <Setter Property="BackgroundColor" Value="#E3F2FD" />
-                <Setter Property="Padding" Value="8,4" />
-                <Setter Property="Margin" Value="0,0,0,5" />
-                <Setter Property="HorizontalOptions" Value="Center" />
+            <Style TargetType="SearchBar">
+                <Setter Property="BackgroundColor" Value="#FFEEEEEE" />
+                <Setter Property="TextColor" Value="#333333" />
+                <Setter Property="PlaceholderColor" Value="#666666" />
+                <Setter Property="CancelButtonColor" Value="#333333" />
+            </Style>
+            <Style TargetType="Picker">
+                <Setter Property="BackgroundColor" Value="#FFEEEEEE" />
+                <Setter Property="TextColor" Value="#333333" />
+                <Setter Property="TitleColor" Value="#666666" />
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,Auto,*,Auto" RowSpacing="10">
-        <!-- Barra de busca e filtro -->
+    <Grid RowDefinitions="Auto,*,Auto" RowSpacing="10">
+        <!-- Barra de busca e filtro - agora com fundo cinza -->
         <Grid ColumnDefinitions="*,*" RowDefinitions="Auto" Margin="10,10,10,0">
             <SearchBar x:Name="txt_search"
                    Grid.Column="0"
                    Margin="0,0,5,0"
                    Placeholder="Busca por nome"
-                   BackgroundColor="White"
                    TextChanged="txt_search_TextChanged"/>
 
             <Picker x:Name="picker_categorias"
                 Grid.Column="1"
                 Margin="5,0,0,0"
                 Title="Filtrar categoria"
-                BackgroundColor="White"
                 SelectedIndexChanged="Picker_Categorias_SelectedIndexChanged">
                 <Picker.Items>
                     <x:String>Todas</x:String>
@@ -67,15 +68,8 @@
             </Picker>
         </Grid>
 
-        <!-- Label mostrando o filtro ativo -->
-        <Label x:Name="lbl_filtro_ativo"
-               Grid.Row="1"
-               Text="Mostrando: Todas as categorias"
-               Style="{StaticResource FiltroAtivoStyle}"
-               IsVisible="False" />
-
         <!-- Lista de produtos -->
-        <Frame Grid.Row="2" 
+        <Frame Grid.Row="1" 
                Padding="0" 
                Margin="10,0,10,0" 
                CornerRadius="8"
@@ -122,7 +116,7 @@
         </Frame>
 
         <!-- Barra de botões inferior -->
-        <Grid Grid.Row="3" 
+        <Grid Grid.Row="2" 
               ColumnDefinitions="*,*,*" 
               BackgroundColor="#FFEEEEEE"
               Padding="10"

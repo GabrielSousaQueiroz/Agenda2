@@ -7,46 +7,17 @@ public partial class ListaProduto : ContentPage
 {
     ObservableCollection<Produto> lista = new ObservableCollection<Produto>();
     private string _categoriaSelecionada = "Todas";
-    private string _textoBusca = string.Empty;
 
     public ListaProduto()
     {
         InitializeComponent();
         lst_produtos.ItemsSource = lista;
         picker_categorias.SelectedIndex = 0; // Seleciona "Todas" por padrão
-        AtualizarLabelFiltro();
     }
 
     protected async override void OnAppearing()
     {
         await CarregarProdutos();
-        AtualizarLabelFiltro();
-    }
-
-    private void AtualizarLabelFiltro()
-    {
-        if (string.IsNullOrWhiteSpace(_textoBusca))
-        {
-            if (_categoriaSelecionada == "Todas")
-            {
-                lbl_filtro_ativo.Text = "Mostrando: Todas as categorias";
-            }
-            else
-            {
-                lbl_filtro_ativo.Text = $"Filtro ativo: {_categoriaSelecionada}";
-            }
-        }
-        else
-        {
-            if (_categoriaSelecionada == "Todas")
-            {
-                lbl_filtro_ativo.Text = $"Buscando: \"{_textoBusca}\" em todas as categorias";
-            }
-            else
-            {
-                lbl_filtro_ativo.Text = $"Buscando: \"{_textoBusca}\" em {_categoriaSelecionada}";
-            }
-        }
     }
 
     private async Task CarregarProdutos(string categoria = null)
@@ -65,14 +36,7 @@ public partial class ListaProduto : ContentPage
                 tmp = await App.Db.GetByCategory(categoria);
             }
 
-            // Aplica filtro de texto se houver
-            if (!string.IsNullOrWhiteSpace(_textoBusca))
-            {
-                tmp = tmp.Where(p => p.Descricao.Contains(_textoBusca, StringComparison.OrdinalIgnoreCase)).ToList();
-            }
-
             tmp.ForEach(i => lista.Add(i));
-            AtualizarLabelFiltro();
         }
         catch (Exception ex)
         {
@@ -96,9 +60,23 @@ public partial class ListaProduto : ContentPage
     {
         try
         {
-            _textoBusca = e.NewTextValue;
+            string q = e.NewTextValue;
             lst_produtos.IsRefreshing = true;
-            await CarregarProdutos(_categoriaSelecionada == "Todas" ? null : _categoriaSelecionada);
+            lista.Clear();
+
+            List<Produto> tmp;
+
+            if (_categoriaSelecionada == "Todas" || string.IsNullOrEmpty(_categoriaSelecionada))
+            {
+                tmp = await App.Db.Search(q);
+            }
+            else
+            {
+                tmp = await App.Db.Search(q);
+                tmp = tmp.Where(p => p.Categoria == _categoriaSelecionada).ToList();
+            }
+
+            tmp.ForEach(i => lista.Add(i));
         }
         catch (Exception ex)
         {
