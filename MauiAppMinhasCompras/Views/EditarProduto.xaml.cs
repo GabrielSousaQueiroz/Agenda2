@@ -12,7 +12,7 @@ public partial class EditarProduto : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        
+
         // Configura a categoria selecionada quando a página aparece
         if (BindingContext is Produto produto)
         {
@@ -24,6 +24,24 @@ public partial class EditarProduto : ContentPage
             {
                 picker_categoria.SelectedIndex = picker_categoria.Items.IndexOf("Outros");
             }
+        }
+        AtualizarLabelCategoria(); // Atualiza a label ao carregar a página
+    }
+
+    private void Picker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        AtualizarLabelCategoria();
+    }
+
+    private void AtualizarLabelCategoria()
+    {
+        if (picker_categoria.SelectedIndex != -1 && lbl_categoria_selecionada != null)
+        {
+            lbl_categoria_selecionada.Text = $"Categoria selecionada: {picker_categoria.SelectedItem}";
+        }
+        else if (lbl_categoria_selecionada != null)
+        {
+            lbl_categoria_selecionada.Text = "Nenhuma categoria selecionada";
         }
     }
 
